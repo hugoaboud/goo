@@ -1,0 +1,79 @@
+<template>
+    <div class="goo-app-bar row v-center">
+        <div class="icon clickable hover" on:click="toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>menu</title><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" fill="currentColor"/></svg>
+        </div>
+        <div>
+            <slot name="title"> </slot>
+        </div>
+    </div>
+    <div
+        class="goo-app-scrim"
+        set:class="this.menu ? 'on' : ''"
+        on:click="toggle"
+    >
+    </div>
+    <div
+        class="goo-app-navmenu"
+        set:class="this.menu ? 'on' : ''"
+    >
+        <slot name="menu"> </slot>
+    </div>
+</template>
+
+<script>
+this.menu = false;
+
+this.toggle = () => {
+    this.menu = !this.menu;
+    this.render();
+}
+</script>
+
+<style>
+.goo-app-bar {
+    background-color: #111;
+    padding: 0.5rem;
+}
+.goo-app-navmenu {
+    background-color: #111;
+    padding: 0.5rem;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 30dvw;
+
+    display: none;
+    translate: -70dvw 0;
+    &.on {
+        translate: 0 0;
+        display: block;
+    }
+    transition: translate 0.3s ease, display 0.3s ease allow-discrete;
+}
+.goo-app-scrim {
+    background-color: #112;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    display: none;
+    opacity: 0;
+    &.on {
+        opacity: 0.3;
+        display: block;
+    }
+    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+}
+@starting-style {
+  .goo-app-navmenu.on {
+    translate: -70dvw;
+  }
+  .goo-app-scrim.on {
+    opacity: 0;
+  }
+}
+</style>

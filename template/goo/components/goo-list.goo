@@ -1,0 +1,16 @@
+<template>
+    <div class="goo-list">
+        ${this.data}
+    </div>
+</template>
+
+<script>
+this.data = 'abc';
+</script>
+
+<style>
+.goo-list {
+    background-color: #111;
+    padding: 0.5rem;
+}
+</style>

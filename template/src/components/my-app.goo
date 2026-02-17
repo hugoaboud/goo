@@ -1,0 +1,37 @@
+<template>
+    <goo-app-menu>
+        <div slot="title">Goo!</div>
+        <div slot="menu">
+            Menu
+        </div>
+    </goo-app-menu>
+    <div class="col ga ma">
+        <goo-card>
+            Welcome to <i>Goo!</i>
+            <div class="ma"> </div>
+            <goo-btn
+                text="We've got buttons!"
+                on:click="add"
+            > </goo-btn>
+            <a>
+                ${this.counter}
+            </a>
+        </goo-card>
+        <goo-list
+            data="1,2,3"
+        > </goo-list>
+    </div>
+</template>
+
+<style global>
+.ga { gap: 0.5rem; }
+.ma { margin: 0.5rem; }
+</style>
+
+<script>
+this.counter = 0;
+this.add = () => {
+    this.counter++;
+    this.render();
+}
+</script>

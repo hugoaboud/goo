@@ -1,0 +1,62 @@
+<style global>
+body {
+  background-color: #222;
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: 600;
+  margin: 0px;
+}
+
+/* Icon */
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+    
+    color: #fff;
+    transition: color 0.1s;
+    &:hover {
+        color: #99f;
+    }
+    &:active {
+        color: #9bf;
+    }
+}
+
+/* Elements */
+
+.clickable {
+    cursor: pointer;
+}
+
+.btn {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    cursor: pointer;
+    
+    background-color: #111;
+    transition: background-color 0.1s;
+    &:hover {
+        background-color: #224;
+    }
+    &:active {
+        background-color: #337;
+    }
+}
+
+/* Layout */
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.v-center {
+    align-items: center;
+}
+</style>

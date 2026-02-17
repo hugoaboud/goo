@@ -1,0 +1,17 @@
+{
+  "name": "@goo/lib",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --p tsconfig.build.json",
+    "bundle": "tsx bundle.ts"
+  },
+  "author": "Hugo Aboud",
+  "license": "MIT",
+  "repository": "https://github.com/hugoaboud/goo",
+  "description": "The goo framework lib",
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,18 @@
+<template>
+    <div class="btn goo-btn">
+        ${this.text}
+    </div>
+</template>
+
+<script>
+this.text = this.getAttribute('text') ?? '';
+</script>
+
+<style>
+.goo-btn {
+    width: fit-content;
+    padding: 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+}
+</style>

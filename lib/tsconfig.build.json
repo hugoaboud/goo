@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es6",
+		"lib": ["dom"],
+		"sourceMap": true,
+		"strict": true,
+		"outDir": "build",
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"declaration": true
+	},
+	"exclude": [
+		"bundle.ts",
+		"util",
+		"build",
+		"node_modules",
+		".vscode-test"
+	]
+}
