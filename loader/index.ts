@@ -3,7 +3,7 @@ import * as path from 'path';
 import { extractSFC } from './src/extract';
 import { capitalize, sanitizeString } from './src/helper';
 import { parseHtml } from './src/html';
-import { makeSetup } from './src/typescript';
+import { makeSetup } from './src/setup';
 import { makeWebComponent } from './src/webc';
 
 export default function loader(this: {resourcePath: string}, source: string) {
@@ -23,7 +23,7 @@ export default function loader(this: {resourcePath: string}, source: string) {
   const raw = extractSFC(source);
   const html = raw.html ? parseHtml(raw.html) : undefined;
 
-  const setup = html?.attributes ? makeSetup(html.attributes) : undefined;
+  const goo = html?.attributes ? makeSetup(html.attributes) : undefined;
 
   const webc = makeWebComponent(
     /* name */            name,
@@ -32,7 +32,8 @@ export default function loader(this: {resourcePath: string}, source: string) {
     /* style */           sanitizeString(raw.css),
     /* is_global_style */ raw.css_options?.includes('global') ?? false,
     /* class_def */       raw.ts,
-    /* goo_setup */       setup
+    /* goo_link */        goo?.link,
+    /* goo_setup */       goo?.setup
   );
 
   return webc;

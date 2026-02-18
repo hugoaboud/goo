@@ -1,10 +1,14 @@
 <template>
-    <div class="btn goo-btn">
-        <slot> </slot>
+    <div class="btn goo-btn" set:style="this._style">
+        <slot/>
     </div>
 </template>
 
 <script>
+public get _style() {
+    return ''
+        + 'background-color: ' + (this.color ?? '')
+}
 public setup() {
     this.style = 'width: fit-content;'
 }

@@ -1,0 +1,64 @@
+<template>
+    <div
+        class="goo-scrim"
+        set:class="this.is_open ? 'on' : ''"
+        on:click="this.close()"
+    />
+    <div
+        class="goo-modal col"
+        set:style="this.style"
+        set:class="this.is_open ? 'on' : ''"
+    >
+        <div class="row h-end mb">
+            <div class="icon-sm clickable hover" on:click="this.close()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close</title><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" fill="currentColor"/></svg>
+            </div>
+        </div>
+        <slot/>
+    </div>
+</template>
+
+<script>
+public is_open = false;
+private get style() {
+    return ''
+        + `width: ${this.width ?? 'fit-content'};`
+        + `height: ${this.height ?? 'fit-content'};`
+}
+
+private callback?: (response?: any) => void;
+public open(callback?: (response?: any) => void) {
+    this.callback = callback;
+    this.is_open = true;
+    this.render();
+}
+public close(response?: any) {
+    this.callback?.(response);
+    this.is_open = false;
+    this.render();
+}
+</script>
+
+<style>
+.goo-modal {
+    background-color: #112;
+    position: absolute;
+    margin: auto;
+    inset: 0 0 0 0;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+
+    display: none;
+    opacity: 0;
+    &.on {
+        opacity: 1;
+        display: block;
+    }
+    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+}
+@starting-style {
+  .goo-modal.on {
+    opacity: 0;
+  }
+}
+</style>

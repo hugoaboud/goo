@@ -1,12 +1,18 @@
 <template>
-    <div class="goo-card">
-        <slot> </slot>
+    <div class="goo-card col" set:style="this.style">
+        <slot/>
     </div>
 </template>
 
+<script>
+public get style() {
+    return ''
+        + 'background-color: ' + (this.color ?? '#444')
+}
+</script>
+
 <style>
 .goo-card {
-    background-color: #444;
     padding: 0.5rem;
     border-radius: 0.5rem;
 }

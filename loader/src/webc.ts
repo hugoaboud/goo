@@ -5,6 +5,7 @@ export const makeWebComponent = (
   style: string | undefined,
   is_global_style: boolean,
   class_def: string | undefined,
+  goo_link: string | undefined,
   goo_setup: string | undefined
 ) => ''
 + `import { GooWebComponent } from "@goo/lib";\n`
@@ -23,9 +24,10 @@ export const makeWebComponent = (
 + ((style && !is_global_style) ? ''
 + `    this.shadowRoot.appendChild(style);\n`
 : '')
++ `    ${goo_link ?? ''}`
++ `    this.buildNodeTree();\n`
 + `    ${goo_setup ?? ''}`
 + `    this.addGlobalStyle();\n`
-+ `    this.buildNodeTree();\n`
 + `    this.setup?.();\n`
 + `  }\n`
 + `}\n`

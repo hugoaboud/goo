@@ -3,6 +3,7 @@
         <div
             class="goo-list-item btn"
             for:item="of this.data"
+            on:click="this.select(item)"
         >
             <a>${item}</a>
         </div>
@@ -11,6 +12,13 @@
 
 <script>
 public data: number[] = [];
+private select(item: string) {
+    this.dispatchEvent(new CustomEvent('select', {
+        bubbles: true,
+        cancelable: true,
+        detail: item
+    }))
+}
 </script>
 
 <style>

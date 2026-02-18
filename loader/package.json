@@ -13,6 +13,7 @@
   "repository": "https://github.com/hugoaboud/goo",
   "description": "Webpack Loader for building SFC native WebComponents",
   "dependencies": {
+    "@goo/lib": "file:../lib/build",
     "@xmldom/xmldom": "^0.8.11"
   },
   "devDependencies": {

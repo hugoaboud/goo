@@ -23,6 +23,20 @@ body {
     }
 }
 
+.icon-sm {
+    width: 1rem;
+    height: 1rem;
+    
+    color: #fff;
+    transition: color 0.1s;
+    &:hover {
+        color: #99f;
+    }
+    &:active {
+        color: #9bf;
+    }
+}
+
 /* Elements */
 
 .clickable {
@@ -46,7 +60,37 @@ body {
     }
 }
 
+.chip {
+    background-color: #136;
+    padding: 0.2rem;
+    border-radius: 0.3rem;
+}
+span {
+    &.chip {
+        margin-right: 0.2rem;
+    }
+}
+
 /* Layout */
+
+a { font-size: 0.8rem; font-weight: 400;}
+.ga { gap: 0.5rem; }
+.ma { margin: 0.5rem; }
+.ml { margin-left: 0.5rem; }
+.mr { margin-left: 0.5rem; }
+.mt { margin-top: 0.5rem; }
+.mb { margin-bottom: 0.5rem; }
+.mx { margin-left: 0.5rem; margin-right: 0.5rem; }
+.my { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.pa { padding: 0.5rem; }
+.pl { padding-left: 0.5rem; }
+.pr { padding-left: 0.5rem; }
+.pt { padding-top: 0.5rem; }
+.pb { padding-bottom: 0.5rem; }
+.px { padding-left: 0.5rem; margin-right: 0.5rem; }
+.py { padding-top: 0.5rem; margin-bottom: 0.5rem; }
+
+.text-sm { font-size: 0.7rem; }
 
 .col {
     display: flex;
@@ -59,8 +103,37 @@ body {
 .v-center {
     align-items: center;
 }
+.h-end {
+    justify-content: end;
+}
+.h-at-end {
+    margin-left: auto;
+}
 
 .h-divider {
     border-bottom: 1px solid #666;
+}
+
+/* Scrim */
+.goo-scrim {
+    background-color: #112;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    display: none;
+    opacity: 0;
+    &.on {
+        opacity: 0.3;
+        display: block;
+    }
+    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+}
+@starting-style {
+  .goo-scrim.on {
+    opacity: 0;
+  }
 }
 </style>
