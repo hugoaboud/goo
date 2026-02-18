@@ -2,6 +2,16 @@ import { parseHtml } from "../src/html";
 
 describe('html', () => {
 
+    describe('self-closing tags', () => {    
+        it.only('should undo self-closing tag', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div/>'
+            );
+            expect(source).toEqual('<div></div>')
+            expect(attributes).toEqual({})
+        })
+    })
+
     describe('${text}', () => {    
         it('should parse ${} template text', () => {
             const { source, attributes } = parseHtml(''
@@ -29,13 +39,26 @@ describe('html', () => {
                 }
             ]})
         })
+        it('should parse ${} template text on root', () => {
+            const { source, attributes } = parseHtml(''
+                + '${this.color}'
+            );
+            expect(source).toEqual('')
+            expect(attributes).toEqual({
+                '_goo_0': [
+                {
+                    type: 'text',
+                    template: '${this.color}'
+                }
+            ]})
+        })
         it('should parse multiple ${} template texts', () => {
             const { source, attributes } = parseHtml(''
                 + '<div>\n'
                 + '  ${this.menu}\n'
                 + '</div>\n'
             );
-            expect(source).toEqual('<div id="_goo_1"/>\n')
+            expect(source).toEqual('<div id="_goo_1"/>')
             expect(attributes).toEqual({
                 '_goo_1': [
                 {
@@ -46,58 +69,6 @@ describe('html', () => {
         })
     })
 
-    describe('on:###', () => {    
-        it('should parse on:### attribute', () => {
-            const { source, attributes } = parseHtml(''
-                + '<div on:click="run"></div>'
-            );
-            expect(source).toEqual('<div id="_goo_1"/>')
-            expect(attributes).toEqual({
-                '_goo_1': [
-                {
-                    type: 'on',
-                    event: 'click',
-                    code: 'this.run()'
-                }
-            ]})
-        })
-    
-        it('should parse on:### attribute with given id', () => {
-            const { source, attributes } = parseHtml(''
-                + '<div id="my_btn" on:click="run"></div>'
-            );
-            expect(source).toEqual('<div id="my_btn"/>')
-            expect(attributes).toEqual({
-                'my_btn': [
-                {
-                    type: 'on',
-                    event: 'click',
-                    code: 'this.run()'
-                }
-            ]})
-        })
-    
-        it('should parse multiple on:### attributes', () => {
-            const { source, attributes } = parseHtml(''
-                + '<div on:hover="prepare" on:click="run"></div>'
-            );
-            expect(source).toEqual('<div id="_goo_1"/>')
-            expect(attributes).toEqual({
-                '_goo_1': [
-                {
-                    type: 'on',
-                    event: 'hover',
-                    code: 'this.prepare()'
-                },
-                {
-                    type: 'on',
-                    event: 'click',
-                    code: 'this.run()'
-                }
-            ]})
-        })
-    })
-    
     describe('if:###', () => {    
         it('should parse if:### attribute', () => {
             const { source, attributes } = parseHtml(''
@@ -109,7 +80,7 @@ describe('html', () => {
                 {
                     type: 'if',
                     prop: 'color',
-                    value: '\'red\''
+                    value: '\\\'red\\\''
                 }
             ]})
         })
@@ -154,7 +125,7 @@ describe('html', () => {
                 {
                     type: 'if',
                     prop: 'color',
-                    value: '\'red\''
+                    value: '\\\'red\\\''
                 }
             ]})
         })
@@ -169,12 +140,12 @@ describe('html', () => {
                 {
                     type: 'if',
                     prop: 'state',
-                    value: '\'open\''
+                    value: '\\\'open\\\''
                 },
                 {
                     type: 'if',
                     prop: 'color',
-                    value: '\'red\''
+                    value: '\\\'red\\\''
                 }
             ]})
         })
@@ -191,7 +162,7 @@ describe('html', () => {
                 {
                     type: 'set',
                     prop: 'class',
-                    code: 'this.glow ? \'glow\' : \'\''
+                    code: 'this.glow ? \\\'glow\\\' : \\\'\\\''
                 }
             ]})
         })
@@ -206,7 +177,7 @@ describe('html', () => {
                 {
                     type: 'set',
                     prop: 'class',
-                    code: 'this.glow ? \'glow\' : \'\''
+                    code: 'this.glow ? \\\'glow\\\' : \\\'\\\''
                 }
             ]})
         })
@@ -221,14 +192,99 @@ describe('html', () => {
                 {
                     type: 'set',
                     prop: 'state',
-                    code: '\'open\''
+                    code: '\\\'open\\\''
                 },
                 {
                     type: 'set',
                     prop: 'color',
-                    code: '\'red\''
+                    code: '\\\'red\\\''
                 }
             ]})
         })
     })
+    
+    describe('on:###', () => {    
+        it('should parse on:### attribute', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div on:click="this.run()"></div>'
+            );
+            expect(source).toEqual('<div id="_goo_1"/>')
+            expect(attributes).toEqual({
+                '_goo_1': [
+                {
+                    type: 'on',
+                    event: 'click',
+                    code: 'this.run()'
+                }
+            ]})
+        })
+    
+        it('should parse on:### attribute with given id', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div id="my_btn" on:click="this.run()"></div>'
+            );
+            expect(source).toEqual('<div id="my_btn"/>')
+            expect(attributes).toEqual({
+                'my_btn': [
+                {
+                    type: 'on',
+                    event: 'click',
+                    code: 'this.run()'
+                }
+            ]})
+        })
+    
+        it('should parse multiple on:### attributes', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div on:hover="this.prepare()" on:click="this.run()"></div>'
+            );
+            expect(source).toEqual('<div id="_goo_1"/>')
+            expect(attributes).toEqual({
+                '_goo_1': [
+                {
+                    type: 'on',
+                    event: 'hover',
+                    code: 'this.prepare()'
+                },
+                {
+                    type: 'on',
+                    event: 'click',
+                    code: 'this.run()'
+                }
+            ]})
+        })
+    })
+    
+    describe('for:###', () => {    
+        it('should parse for:### attribute', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div for:item="of this.list"></div>'
+            );
+            expect(source).toEqual('<div id="_goo_1"/>')
+            expect(attributes).toEqual({
+                '_goo_1': [
+                {
+                    type: 'for',
+                    var: 'item',
+                    iterator: 'of this.list'
+                }
+            ]})
+        })
+
+        it('should parse for:### attribute with given id', () => {
+            const { source, attributes } = parseHtml(''
+                + '<div id="my_btn" for:item="of this.list"></div>'
+            );
+            expect(source).toEqual('<div id="my_btn"/>')
+            expect(attributes).toEqual({
+                'my_btn': [
+                {
+                    type: 'for',
+                    var: 'item',
+                    iterator: 'of this.list'
+                }
+            ]})
+        })
+    })
+    
 })

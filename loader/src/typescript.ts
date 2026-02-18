@@ -1,13 +1,9 @@
 import { GooAttribute } from "./html";
 
-export function parseImplicitReturn(code: string) {
-    if (!code.startsWith('this.')) {
-        code = 'this.' + code;
-    }
-    if (!code.endsWith(')')) {
-        code = code + '()';
-    }
-    return code;
+export function parseCode(code: string) {
+    return code
+        .replace(/'/g,'\\\'')
+        .replace(/\n/g,'\\n');
 }
 
 export function parseCondition(attr: Extract<GooAttribute, { type: 'if' }>) {
@@ -23,41 +19,13 @@ export function makeSetup(attributes: Record<string, GooAttribute[]>) {
     const setup: string[] = [];
 
     for (const id in attributes) {
-        setup.push(`this.$${id} = shadowRoot.querySelector('#${id}');`);
+        setup.push(`this.addGooNode('${id}');`);
 
+        // text
         for (const attr of attributes[id]!) {
-
-            switch (attr.type) {
-                case 'text':
-                    setup.push(`this.$${id}.renderText = () => { this.$${id}.textContent = \`${attr.template}\`; }`);
-                    break;
-                case 'on':
-                    setup.push(`this.$${id}.addEventListener('${attr.event}', () => ${attr.code});`);
-                    break;
-                case 'if':
-                    setup.push(`this.$${id}.__goo_display = this.$${id}.style.display;`);
-                    break;
-                case 'set':
-                    if (attr.prop === 'class') {
-                        setup.push(`this.$${id}.__goo_raw_class = this.$${id}.className ?? '';`);
-                    }
-                    break;
-            }
-
+            if (attr.type !== 'text') continue;
+            setup.push(`this.$${id}._setupText(${attr.pos}, '${attr.template}');`);
         }
-
-        if (id.startsWith('_goo_')) {
-            setup.push(`this.$${id}.removeAttribute('id');`);
-        }
-    }
-    
-    return setup.join('\n')+'\n';
-}
-
-export function makeRender(attributes: Record<string, GooAttribute[]>) {
-    const render: string[] = [];
-
-    for (const id in attributes) {
 
         // if
         const if_attrs = attributes[id]!.filter(attr => attr.type === 'if');
@@ -65,35 +33,33 @@ export function makeRender(attributes: Record<string, GooAttribute[]>) {
             const conditions = if_attrs
                 .map(attr => parseCondition(attr))
                 .join(' && ');
-
-            render.push('if (' + conditions + ') {');
-            render.push(`  this.$${id}.style.display = this.$${id}.__goo_display;`);
-            render.push('} else {');
-            render.push(`  this.$${id}.style.display = 'none';`);
-            render.push('}');
+            setup.push(`this.$${id}._setupIf(\'${conditions}\');`);
         }
-
 
         // set
-        const set_attrs = attributes[id]!.filter(attr => attr.type === 'set');
-        if (set_attrs.length) {
-            for (const attr of set_attrs) {
-                if (attr.prop === 'class') {
-                    render.push(`this.$${id}.className = this.$${id}.__goo_raw_class + ' ' + (${attr.code});`);
-                }
-                else {
-                    render.push(`this.$${id}.setAttribute('${attr.prop}', ${attr.code})`);
-                }
-            }
+        const set_attrs = attributes[id]!.filter(attr => attr.type === 'set' && attr.prop !== 'class') as Extract<GooAttribute, { type: 'set' }>[];
+        for (const attr of set_attrs) {
+            setup.push(`this.$${id}._setupSet(\'${attr.prop}\', \'${attr.code}\');`);
         }
 
-        // text
-        const text_attr = attributes[id]!.find(attr => attr.type === 'text');
-        if (text_attr) {
-            render.push(`this.$${id}.renderText();`);
+        // set class
+        const set_class_attr = attributes[id]!.find(attr => attr.type === 'set' && attr.prop === 'class') as Extract<GooAttribute, { type: 'set' }>;
+        if (set_class_attr) {
+            setup.push(`this.$${id}._setupSetClass(\'${set_class_attr.code}\');`);
         }
 
+        // for
+        const for_attr = attributes[id]!.find(attr => attr.type === 'for') as Extract<GooAttribute, { type: 'for' }>;
+        if (for_attr) {
+            setup.push(`this.$${id}._setupFor(\'${for_attr.var}\', \'${for_attr.iterator}\');`);
+        }
+
+        // on
+        for (const attr of attributes[id]!) {
+            if (attr.type !== 'on') continue;
+            setup.push(`this.$${id}._setupOn('${attr.event}', \'${attr.code}\');`);
+        }
     }
     
-    return render.join('\n')+'\n'
+    return setup.join('\n')+'\n';
 }

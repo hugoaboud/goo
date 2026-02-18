@@ -3,23 +3,28 @@
         <div slot="title">Goo!</div>
         <div slot="menu">
             Menu
+            <goo-list
+                set:data="this.data"
+            />
         </div>
     </goo-app-menu>
     <div class="col ga ma">
         <goo-card>
-            Welcome to <i>Goo!</i>
-            <div class="ma"> </div>
-            <goo-btn
-                text="We've got buttons!"
-                on:click="add"
-            > </goo-btn>
-            <a>
+            <div class="col">
+                <div class="ma">
+                    Welcome to <i>Goo!</i>
+                </div>
+                <div class="h-divider"/>
+                <goo-btn on:click="this.add()">
+                    We've got buttons!
+                </goo-btn>
                 ${this.counter}
-            </a>
+            </div>
         </goo-card>
+        <a></a>
         <goo-list
-            data="1,2,3"
-        > </goo-list>
+            set:data="this.data"
+        />
     </div>
 </template>
 
@@ -29,9 +34,11 @@
 </style>
 
 <script>
-this.counter = 0;
-this.add = () => {
+public counter = 0;
+public add() {
     this.counter++;
     this.render();
 }
+
+public data = ['a','b','c','d','e'];
 </script>

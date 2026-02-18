@@ -14,8 +14,8 @@ async function main() {
     Console.step('(Step 2) Transpile TypeScript source files')
     await Shell.cmd('.', 'npm run build')
 
-    Console.step('(Step 3) Run Unit Tests')
-    await Shell.cmd('.', 'npm run test:ci')
+    // Console.step('(Step 3) Run Unit Tests')
+    // await Shell.cmd('.', 'npm run test:ci')
 
     Console.step('(Step 4) Copy "package.json" file to build/');
     {

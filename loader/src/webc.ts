@@ -4,14 +4,14 @@ export const makeWebComponent = (
   content: string | undefined,
   style: string | undefined,
   is_global_style: boolean,
-  goo_setup: string | undefined,
-  script_setup: string | undefined,
-  render: string | undefined
+  class_def: string | undefined,
+  goo_setup: string | undefined
 ) => ''
-+ `import { addGlobalStyle } from "@goo/lib";\n`
-+ `export class ${name} extends HTMLElement {\n`
++ `import { GooWebComponent } from "@goo/lib";\n`
++ `export class ${name} extends GooWebComponent {\n`
++ `  ${class_def}\n`
 + `  connectedCallback() {\n`
-+ `    const shadowRoot = this.attachShadow({ mode: "open" });\n`
++ `    this.attachShadow({ mode: "open" });\n`
 + (style ? ''
 + `    const style = document.createElement("style");\n`
 + `    style.textContent = '${style}';\n`
@@ -19,17 +19,14 @@ export const makeWebComponent = (
 + ((style && is_global_style) ? ''
 + `    this.appendChild(style);\n`
 : '')
-+ `    shadowRoot.innerHTML = '${content ?? ''}';\n`
++ `    this.shadowRoot.innerHTML = '${content ?? ''}';\n`
 + ((style && !is_global_style) ? ''
-+ `    shadowRoot.appendChild(style);\n`
++ `    this.shadowRoot.appendChild(style);\n`
 : '')
 + `    ${goo_setup ?? ''}`
-+ `    {${script_setup ?? ''}}\n`
-+ `    addGlobalStyle(shadowRoot);\n`
-+ `    this.render()\n`
-+ `  }\n`
-+ `  render() {\n`
-+ `    ${render ?? ''}`
++ `    this.addGlobalStyle();\n`
++ `    this.buildNodeTree();\n`
++ `    this.setup?.();\n`
 + `  }\n`
 + `}\n`
 + ``

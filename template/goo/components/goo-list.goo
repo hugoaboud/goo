@@ -1,16 +1,25 @@
 <template>
     <div class="goo-list">
-        ${this.data}
+        <div
+            class="goo-list-item btn"
+            for:item="of this.data"
+        >
+            <a>${item}</a>
+        </div>
     </div>
 </template>
 
 <script>
-this.data = 'abc';
+public data: number[] = [];
 </script>
 
 <style>
 .goo-list {
     background-color: #111;
+    padding: 0.25rem;
+}
+.goo-list-item {
+    background-color: #1b1b1b;
     padding: 0.5rem;
 }
 </style>

@@ -59,4 +59,8 @@ body {
 .v-center {
     align-items: center;
 }
+
+.h-divider {
+    border-bottom: 1px solid #666;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="goo-app-bar row v-center">
-        <div class="icon clickable hover" on:click="toggle">
+        <div class="icon clickable hover" on:click="this.toggle()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>menu</title><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" fill="currentColor"/></svg>
         </div>
         <div>
@@ -10,7 +10,7 @@
     <div
         class="goo-app-scrim"
         set:class="this.menu ? 'on' : ''"
-        on:click="toggle"
+        on:click="this.toggle()"
     >
     </div>
     <div
@@ -22,9 +22,8 @@
 </template>
 
 <script>
-this.menu = false;
-
-this.toggle = () => {
+public menu = false;
+public toggle() {
     this.menu = !this.menu;
     this.render();
 }

@@ -10,7 +10,7 @@ const BUILD = false;
 
 export default {
   entry: "./src/index.ts",
-  mode: "development",
+  mode: BUILD ? "production" : "development",
   module: {
     rules: [
       {
