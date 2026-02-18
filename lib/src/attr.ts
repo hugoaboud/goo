@@ -1,5 +1,7 @@
 export type GooAttribute =
 {
+    type: 'void'
+} | {
     type: 'text'
     pos: number
     template: string

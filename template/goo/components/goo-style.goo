@@ -1,6 +1,6 @@
 <style global>
 body {
-  background-color: #222;
+  background-color: #040404;
   color: #fff;
   font-family: sans-serif;
   font-weight: 600;
@@ -50,7 +50,6 @@ body {
     user-select: none; /* Standard */
     cursor: pointer;
     
-    background-color: #111;
     transition: background-color 0.1s;
     &:hover {
         background-color: #224;
@@ -61,9 +60,10 @@ body {
 }
 
 .chip {
-    background-color: #136;
-    padding: 0.2rem;
+    background-color: #222;
+    padding: 0.2rem 0.4rem 0.3rem 0.4rem;
     border-radius: 0.3rem;
+    width: fit-content;
 }
 span {
     &.chip {
@@ -71,9 +71,19 @@ span {
     }
 }
 
+/* Theme */
+
+.primary {
+    background-color: #133;
+}
+.secondary {
+    background-color: #a87e22;
+}
+
 /* Layout */
 
 a { font-size: 0.8rem; font-weight: 400;}
+label { font-size: 0.8rem; font-weight: 400;}
 .ga { gap: 0.5rem; }
 .ma { margin: 0.5rem; }
 .ml { margin-left: 0.5rem; }
@@ -89,6 +99,10 @@ a { font-size: 0.8rem; font-weight: 400;}
 .pb { padding-bottom: 0.5rem; }
 .px { padding-left: 0.5rem; margin-right: 0.5rem; }
 .py { padding-top: 0.5rem; margin-bottom: 0.5rem; }
+
+.line-break {
+    white-space: pre-wrap;
+}
 
 .text-sm { font-size: 0.7rem; }
 
@@ -116,20 +130,21 @@ a { font-size: 0.8rem; font-weight: 400;}
 
 /* Scrim */
 .goo-scrim {
-    background-color: #112;
-    position: absolute;
+    background-color: #050A0A;
+    position: fixed;
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
 
-    display: none;
-    opacity: 0;
-    &.on {
-        opacity: 0.3;
-        display: block;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, display 0.3s allow-discrete;
+    &[style*="display: none"] {
+        opacity: 0;
     }
-    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+    @starting-style {
+        opacity: 0;
+    }
 }
 @starting-style {
   .goo-scrim.on {

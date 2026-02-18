@@ -55,6 +55,7 @@ export class GooNode {
 
   public _setupIf(code: string) {
     this.raw.style_display = this.el.style.display;
+    code = 'return ' + code;
     this.methods['#if'] = {
       code,
       fn: new Function('', code).bind(this.webc) as (...args: any[]) => void

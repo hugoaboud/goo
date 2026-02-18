@@ -9,13 +9,13 @@
     </div>
     <div
         class="goo-scrim"
-        set:class="this.menu ? 'on' : ''"
+        if:menu
         on:click="this.toggle()"
     >
     </div>
     <div
         class="goo-app-navmenu"
-        set:class="this.menu ? 'on' : ''"
+        if:menu
     >
         <slot name="menu"/>
     </div>
@@ -31,11 +31,11 @@ public toggle() {
 
 <style>
 .goo-app-bar {
-    background-color: #111;
+    background-color: #133;
     padding: 0.5rem;
 }
 .goo-app-navmenu {
-    background-color: #111;
+    background-color: #040404;
     padding: 0.5rem;
     position: absolute;
     top: 0px;
@@ -43,17 +43,13 @@ public toggle() {
     left: 0px;
     right: calc(100dvw - min(70dvw,20rem));
 
-    display: none;
-    translate: -70dvw 0;
-    &.on {
-        translate: 0 0;
-        display: block;
+    transition: translate 0.3s ease, display 0.3s allow-discrete;
+    
+    &[style*="display: none"] {
+        translate: -70dvw 0;
     }
-    transition: translate 0.3s ease, display 0.3s ease allow-discrete;
-}
-@starting-style {
-  .goo-app-navmenu.on {
-    translate: -70dvw;
-  }
+    @starting-style {
+        translate: -70dvw 0;
+    }
 }
 </style>

@@ -10,7 +10,7 @@
     </goo-app-menu>
     <div class="col ga ma">
         <!-- goo-card -->
-        <goo-card>
+        <goo-card color="#122">
             <div class="ma">
                 Welcome to <i>Goo!</i>
             </div>
@@ -18,13 +18,13 @@
             <a>
                 Goo is a micro-framework for frontend development, designed as an abstraction layer on top of WebComponents.
                 <br>
-                It allows building simple browser UIs which are server on a single, very small, HTML file. No external requests by default, no dead code bundled with the app, just a minimal JS library which allows a vue-like syntax.
+                It allows building simple browser UIs which are served on a single, very small, HTML file. No external requests by default, no dead code bundled with the app, just a minimal JS library which allows a vue-like syntax.
             </a>
         </goo-card>
 
         <!-- goo-btn -->
-        <goo-card color="#1b1b2b">
-            <div class="text-sm mb">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
                 [goo-btn]
             </div>
             <div class="h-divider mb"/>
@@ -41,8 +41,8 @@
         </goo-card>
 
         <!-- goo-list -->
-        <goo-card color="#1b1b2b">
-            <div class="text-sm mb">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
                 [goo-list]
             </div>
             <div class="h-divider mb"/>
@@ -55,8 +55,8 @@
         </goo-card>
 
         <!-- goo-modal -->
-        <goo-card color="#1b1b2b">
-            <div class="text-sm mb">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
                 [goo-modal]
             </div>
             <div class="h-divider mb"/>
@@ -71,7 +71,7 @@
             </goo-modal>
             
             <a class="mb">When opening a modal, you can specify a callback to receive a response once it's closed, with <span class="chip">this.$xyz.open(out => {...})</span>.</a>
-            <div class="row v-center ga">
+            <div class="row v-center ga mb">
                 <goo-btn on:click="this.open_modal">
                     Open Modal and wait for Response
                 </goo-btn>
@@ -99,6 +99,27 @@
             <goo-btn on:click="this.open_dynamic_modal()" class="mb">
                 Open Dynamic Modal with goo.open_modal
             </goo-btn>
+        </goo-card>
+
+        <!-- goo-form -->
+        <goo-card>
+            <div class="text-sm mb chip secondary">
+                [goo-form]
+            </div>
+            <div class="h-divider mb"/>
+            <a class="mb">Simple schema-based forms</a>
+            <goo-form
+                id="form"
+                set:schema="this.form_schema"
+            />
+            <goo-btn
+                color="#5b5"
+                class="ma h-at-end"
+                on:click="this.submit_form()"
+            >Submit</goo-btn>
+            <goo-card class="line-break">
+                <a>${this.form_data}</a>
+            </goo-card>
         </goo-card>
     </div>
 </template>
@@ -138,8 +159,25 @@ private open_dynamic_modal() {
     const modal = goo.open_modal('goo-modal',
         '<a>This is a purely dynamic modal, built with goo.open_modal!</a>\n'
         + '<goo-btn color="#b55" on:click="this.close(false)">No</goo-btn>'
+        + '<goo-btn color="#5b5" on:click="this.close(true)">Yes</goo-btn>'
     ).then(response => {
         console.log(`Dynamic modal response: ${response}`);
     });
+}
+
+// [goo-form]
+private form_schema = {
+    items: [
+        { $item: 'field', name: 'name', alias: 'Name', type: 'string', required: true },
+        { $item: 'field', name: 'age', alias: 'Age', type: 'int', required: true },
+        { $item: 'field', name: 'height', alias: 'Height', type: 'float', required: true },
+        { $item: 'field', name: 'has_id', alias: 'Has ID', type: 'bool', required: true },
+    ]
+}
+private form_data = '';
+private submit_form() {
+    const data = this.$form.submit();
+    this.form_data = JSON.stringify(data, undefined, 2);
+    this.render();
 }
 </script>

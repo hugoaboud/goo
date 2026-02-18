@@ -25,6 +25,16 @@ function parseNode(node: HTMLElement, node_i: number) {
     const attributes: (GooAttribute & { id: string})[] = [];
 
     const orig_id = node.getAttribute('id');
+    
+    // If an element has an id, add it regardless of any attribute
+    // so it can be used with `this.$id`.
+    if (orig_id?.length) {
+        attributes.push({
+            type: 'void',
+            id: orig_id
+        });
+    }
+
     const id = orig_id?.length ? orig_id : `_goo_${node_i}`;
 
     const attrs = Array.from(node.attributes);
@@ -136,7 +146,9 @@ export function parseHtml(root: HTMLElement) {
     const attributes: Record<string, GooAttribute[]> = {};
     for (const { id, ...attr } of all_attributes) {
         attributes[id] ??= []
-        attributes[id]!.push(attr);
+        if (attr.type !== 'void') {
+            attributes[id]!.push(attr);
+        }
     }
 
     return attributes;

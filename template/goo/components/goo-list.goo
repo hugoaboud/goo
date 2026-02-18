@@ -1,7 +1,7 @@
 <template>
     <div class="goo-list">
         <div
-            class="goo-list-item btn"
+            class="btn goo-list-item"
             for:item="of this.data"
             on:click="this.select(item)"
         >
@@ -23,11 +23,10 @@ private select(item: string) {
 
 <style>
 .goo-list {
-    background-color: #111;
     padding: 0.25rem;
 }
 .goo-list-item {
-    background-color: #1b1b1b;
+    background-color: #090909;
     padding: 0.5rem;
 }
 </style>

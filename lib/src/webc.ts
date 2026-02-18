@@ -48,7 +48,7 @@ export abstract class GooWebComponent extends HTMLElement {
       : from.querySelector(`#${id}`)) as HTMLElement & { __goo_is_webc?: boolean };
     const node = new GooNode(this, id, el); 
     this.nodes[id] = node;
-    if (el.__goo_is_webc) {
+    if (!id.startsWith('_goo_')) {
       (this as any)[`$${id}`] = this.nodes[id].el; 
     }
   }
@@ -63,7 +63,9 @@ export abstract class GooWebComponent extends HTMLElement {
         const id = el.getAttribute('id') ?? `_goo_webc_${c++}`;
         const node = new GooNode(this, id, el); 
         this.nodes[id] = node;
-        (this as any)[`$${id}`] = this.nodes[id].el;
+        if (!id.startsWith('_goo_')) {
+          (this as any)[`$${id}`] = this.nodes[id].el;
+        }
       }
       if (el.__goo && root) {
         this.layer.push(el.__goo);

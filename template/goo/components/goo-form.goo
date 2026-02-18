@@ -1,0 +1,88 @@
+<template>
+    <form id="form" class="goo-form col" onsubmit="return false">
+        <div
+            class="col mb"
+            for:item="of this.schema.items"
+        >
+            <label class="text-sm">${item?.alias}
+                <span style="color: #b55">${item?.required ? ' *' : ''}</span>
+            </label>
+            <input
+                class="goo-form-field"
+                set:type="this.type(item)"
+                set:name="item?.name"
+                set:class="this.errors[item?.name] ? 'goo-form-field-error' : ''"
+            />
+            <a
+                class="goo-form-label-error text-sm"
+                if:_="this.errors[item?.name]"
+            >
+                ${this.errors[item?.name] ?? ''}
+            </a>
+        </div>
+        <input id="submit_btn" type="submit" style="display: none;"/>
+    </form>
+</template>
+
+<script>
+public schema = {}
+public type(item) {
+    if (!item) return;
+    switch (item.type) {
+        case 'string': return 'string';
+        case 'int': return 'number';
+        case 'float': return 'number';
+        case 'boolean': return 'string';
+    }
+}
+public errors: Record<string, string> = {};
+public submit() {
+    const form_data = new FormData(this.$form);
+
+    var data = {};
+    form_data.forEach((value, key) => {
+        if (!value?.toString().length) {
+            this.errors[key] = 'Required'
+            return;
+        }
+        delete this.errors[key];
+        data[key] = value;
+    });
+    
+    return data;
+}
+</script>
+
+<style>
+.goo-form {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+.goo-form label {
+    color: #6BB;
+}
+.goo-form-field {
+    border: 0;
+    border-radius: 0.25rem;
+    color: #fff;
+    background: #090909;
+    box-shadow: none;
+    padding: 0.4rem;
+    margin-top: 0.1rem;
+}
+.goo-form-field-error {
+    border: 1px solid #b55;
+}
+.goo-form-label-error {
+    color: #b55;
+    transition: translate 0.3s ease, opacity 0.3s ease, display 0.3s allow-discrete;
+
+    &[style*="display: none"] {
+        transition: unset;
+    }
+    @starting-style {
+        translate: 0 -1rem;
+        opacity: 0;
+    }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
     <div
         class="goo-scrim"
-        set:class="this.is_open ? 'on' : ''"
+        if:is_open
         on:click="this.close()"
     />
     <div
@@ -41,8 +41,8 @@ public close(response?: any) {
 
 <style>
 .goo-modal {
-    background-color: #112;
-    position: absolute;
+    background-color: #133;
+    position: fixed;
     margin: auto;
     inset: 0 0 0 0;
     border-radius: 0.5rem;
@@ -54,7 +54,7 @@ public close(response?: any) {
         opacity: 1;
         display: block;
     }
-    transition: opacity 0.3s ease, display 0.3s ease allow-discrete;
+    transition: opacity 0.3s ease, display 0.3s allow-discrete;
 }
 @starting-style {
   .goo-modal.on {
