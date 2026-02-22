@@ -1,5 +1,5 @@
-import { GooAttribute } from "@goo/lib/src/attr";
-import { parseCondition } from "@goo/lib/src/setup";
+import { GooAttribute } from "@quimblos/goo/src/attr";
+import { parseCondition } from "@quimblos/goo/src/setup";
 
 export function makeSetup(attributes: Record<string, GooAttribute[]>) {
     
@@ -30,6 +30,12 @@ export function makeSetup(attributes: Record<string, GooAttribute[]>) {
             setup.push(`this.nodes['${id}']._setupSet(\'${attr.prop}\', \'${attr.code}\');`);
         }
 
+        // set
+        const with_attrs = attributes[id]!.filter(attr => attr.type === 'with' && attr.prop !== 'class') as Extract<GooAttribute, { type: 'with' }>[];
+        for (const attr of with_attrs) {
+            setup.push(`this.nodes['${id}']._setupWith(\'${attr.prop}\', \'${attr.code}\');`);
+        }
+
         // set class
         const set_class_attr = attributes[id]!.find(attr => attr.type === 'set' && attr.prop === 'class') as Extract<GooAttribute, { type: 'set' }>;
         if (set_class_attr) {
@@ -48,10 +54,22 @@ export function makeSetup(attributes: Record<string, GooAttribute[]>) {
             setup.push(`this.nodes['${id}']._setupFor(\'${for_attr.var}\', \'${for_attr.iterator}\');`);
         }
 
-        // this:as
-        const this_as_attr = attributes[id]!.find(attr => attr.type === 'this');
-        if (this_as_attr) {
-            setup.push(`this.nodes['${id}']._setupThisAs(\'${this_as_attr.var}\');`);
+        // bind:as
+        const bind_as_attr = attributes[id]!.find(attr => attr.type === 'bind');
+        if (bind_as_attr) {
+            setup.push(`this.nodes['${id}']._setupBindAs(\'${bind_as_attr.var}\');`);
+        }
+
+        // slot
+        const slot_attr = attributes[id]!.find(attr => attr.type === 'slot');
+        if (slot_attr) {
+            setup.push(`this.nodes['${id}']._setupSlot(\'${slot_attr.name}\');`);
+        }
+
+        // slot-instance
+        const slot_instance_attr = attributes[id]!.find(attr => attr.type === 'slot-instance');
+        if (slot_instance_attr) {
+            setup.push(`this.nodes['${id}']._setupSlotInstance(\'${slot_instance_attr.name}\');`);
         }
     }
     

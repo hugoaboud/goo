@@ -8,7 +8,7 @@ export const makeWebComponent = (
   goo_link: string | undefined,
   goo_setup: string | undefined
 ) => ''
-+ `import { GooWebComponent } from "@goo/lib";\n`
++ `import { GooWebComponent } from "@quimblos/goo";\n`
 + `export class ${name} extends GooWebComponent {\n`
 + `  ${class_def}\n`
 + `  connectedCallback() {\n`

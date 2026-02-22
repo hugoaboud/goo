@@ -14,13 +14,6 @@ body {
     height: 2rem;
     
     color: #fff;
-    transition: color 0.1s;
-    &:hover {
-        color: #99f;
-    }
-    &:active {
-        color: #9bf;
-    }
 }
 
 .icon-sm {
@@ -28,20 +21,9 @@ body {
     height: 1rem;
     
     color: #fff;
-    transition: color 0.1s;
-    &:hover {
-        color: #99f;
-    }
-    &:active {
-        color: #9bf;
-    }
 }
 
 /* Elements */
-
-.clickable {
-    cursor: pointer;
-}
 
 .btn {
     -webkit-user-select: none; /* Safari */        
@@ -50,12 +32,28 @@ body {
     user-select: none; /* Standard */
     cursor: pointer;
     
-    transition: background-color 0.1s;
+    transition: filter 0.1s;
     &:hover {
-        background-color: #224;
+        filter: brightness(120%);
     }
     &:active {
-        background-color: #337;
+        filter: brightness(150%);
+    }
+}
+
+.btn-d {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+    cursor: pointer;
+    
+    transition: filter 0.1s;
+    &:hover {
+        filter: brightness(80%);
+    }
+    &:active {
+        filter: brightness(50%);
     }
 }
 

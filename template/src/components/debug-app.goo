@@ -1,0 +1,15 @@
+<template>
+    <debug-slot>
+        <div slot="debug" this:as="slot">
+            ${this.count}DEBUG${slot.idx}
+        </div>
+    </debug-slot>
+    <div on:click="this.add()">++</div>
+</template>
+<script>
+public count = 0;
+public add() {
+    this.count++;
+    this.render();
+}
+</script>

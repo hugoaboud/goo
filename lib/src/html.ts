@@ -37,12 +37,32 @@ function parseNode(node: HTMLElement, node_i: number) {
 
     const id = orig_id?.length ? orig_id : `_goo_${node_i}`;
 
+    if (node.nodeName === 'slot') {
+        attributes.push({
+            type: 'slot',
+            id,
+            name: node.getAttribute('name') ?? ''
+        })
+    }
+
     const attrs = Array.from(node.attributes);
     if (attrs.length) {
+        
         for (let i = 0; i < attrs.length; i++) {
             const attr = attrs[i]!;
             const ns_name = attr.name.split(':');
-            if (ns_name.length !== 2) continue;
+            
+            if (ns_name.length !== 2) {
+                if (attr.name === 'slot') {
+                    attributes.push({
+                        type: 'slot-instance',
+                        id,
+                        name: attr.value,
+                        props: []
+                    })
+                }
+                continue;
+            }
 
             switch (ns_name[0]) {
                 case 'if':
@@ -58,6 +78,14 @@ function parseNode(node: HTMLElement, node_i: number) {
                 case 'set':
                     attributes.push({
                         type: 'set',
+                        id,
+                        prop: ns_name[1]!,
+                        code: parseCode(attr.value)
+                    })
+                    break;
+                case 'with':
+                    attributes.push({
+                        type: 'with',
                         id,
                         prop: ns_name[1]!,
                         code: parseCode(attr.value)
@@ -79,9 +107,9 @@ function parseNode(node: HTMLElement, node_i: number) {
                         iterator: attr.value
                     })
                     break;
-                case 'this':
+                case 'bind':
                     attributes.push({
-                        type: 'this',
+                        type: 'bind',
                         id,
                         var: attr.value
                     })

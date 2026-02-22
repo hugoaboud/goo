@@ -1,12 +1,13 @@
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
-import { parseHtml as libParseHtml } from '@goo/lib/src/html';
+import { parseHtml as libParseHtml } from '@quimblos/goo/src/html';
 
 const xmlns = {
     'on': '__goo_on',
     'if': '__goo_if',
     'for': '__goo_for',
     'set': '__goo_set',
-    'this': '__goo_this',
+    'with': '__goo_with',
+    'bind': '__goo_bind',
 }
 
 export function parseHtml(source: string) {

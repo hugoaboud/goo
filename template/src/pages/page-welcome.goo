@@ -1,0 +1,25 @@
+<template>
+    <goo-list
+        set:data="this.list_data"
+        on:select="this.select"
+    >
+        <div slot="item" bind:as="item">
+            ${this.count}${item.i}${item.value}k
+        </div>
+    </goo-list>
+    <goo-btn on:click="this.add">Add</goo-btn>
+    ${this.count}
+</template>
+
+<script>
+public list_data = ['A','B','C'];
+public setup() {
+    console.log(this.__goo);
+}
+
+public count = 0;
+public add() {
+    this.count++;
+    this.render();
+}
+</script>

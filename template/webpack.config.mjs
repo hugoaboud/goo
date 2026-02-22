@@ -23,7 +23,7 @@ export default {
         exclude: /node_modules/,
         use: [
           { loader: 'ts-loader', options: { transpileOnly: true } },
-          { loader: '@goo/loader' },
+          { loader: '@quimblos/goo-loader' },
         ]
       },
     ],

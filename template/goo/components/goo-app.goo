@@ -1,6 +1,6 @@
 <template>
     <div class="goo-app-bar row v-center">
-        <div class="icon clickable hover" on:click="this.toggle()">
+        <div class="icon btn-d hover" on:click="this.toggle()">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>menu</title><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" fill="currentColor"/></svg>
         </div>
         <div class="h-at-end">
@@ -18,14 +18,44 @@
         if:menu
     >
         <slot name="menu"/>
+        <!-- <goo-list
+            set:data="this.menu_data"
+            on:select="this.nav"
+        >
+            <div slot="item" this:as="list">
+                ${list}
+            </div>
+        </goo-list> -->
     </div>
+    <slot/>
 </template>
 
 <script>
+private menu_data = [];
 public menu = false;
+
+public setup() {    
+    const menus = [];
+    const walk = (route) => {
+        if (route.menu) {
+            menus.push(route);
+        }
+        for (const name in route.children) {
+            walk(route.children[name]);
+        }
+    }
+    walk(goo.router.root);
+
+    this.menu_data = menus;
+}
+
 public toggle() {
     this.menu = !this.menu;
     this.render();
+}
+
+public nav(item) {
+    console.log(item);
 }
 </script>
 

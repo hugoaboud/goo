@@ -2,10 +2,14 @@
     <div class="goo-list">
         <div
             class="btn goo-list-item"
-            for:item="of this.data"
+            for:i="in this.data"
             on:click="this.select(item)"
         >
-            <a>${item}</a>
+            <slot
+                name="item"
+                set:i="i"
+                set:value="this.data[i]"
+            />
         </div>
     </div>
 </template>

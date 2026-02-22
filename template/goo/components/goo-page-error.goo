@@ -1,0 +1,5 @@
+<template>
+    <div class="goo-card col" style="background-color: #b55">
+        <slot/>
+    </div>
+</template>

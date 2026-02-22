@@ -1,0 +1,23 @@
+<template>
+    <slot name="debug" set:idx="1"/>
+    <slot name="debug" set:idx="2"/>
+    <slot name="debug" set:idx="3"/>
+    <slot
+        for:item="of this.items"
+        set:idx="item"
+        name="debug"
+    />
+    <div
+        for:item="of this.items"
+    >
+        <a>
+            <b>
+            <slot name="debug" set:idx="item"/>
+            </b>
+        </a>
+    </div>
+</template>
+
+<script>
+public items = [1,2,3];
+</script>

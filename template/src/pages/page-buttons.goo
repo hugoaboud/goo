@@ -1,0 +1,29 @@
+<template>
+    <div class="col ga ma">
+        <!-- goo-btn -->
+        <goo-card>
+            <div class="text-sm mb chip secondary">
+                [goo-btn]
+            </div>
+            <div class="h-divider mb"/>
+            <a class="mb">Buttons are fairly simple. Just use <span class="chip">on:click="..."</span> to do something when it's clicked.</a>
+            <div class="row v-center ga">
+                <goo-btn on:click="this.add(-1)">
+                    Click to Subtract 1
+                </goo-btn>
+                ${this.counter}
+                <goo-btn on:click="this.add(1)">
+                    Click to Add 1
+                </goo-btn>
+            </div>
+        </goo-card>
+
+</template>
+
+<script>
+private counter = 0;
+private add(val: number) {
+    this.counter += val;
+    this.render();
+}
+</script>

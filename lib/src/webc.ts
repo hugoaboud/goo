@@ -11,6 +11,14 @@ export abstract class GooWebComponent extends HTMLElement {
     [id: string]: GooNode
   } = {};
 
+  // public slots: {
+  //   [id: string]: {
+  //     name: string
+  //     source?: GooNode | undefined
+  //     targets: GooNode[]
+  //   }
+  // } = {}
+
   private layer: GooNode[] = [];
 
   public setHtml(innerHTML: string) {
@@ -88,6 +96,8 @@ export abstract class GooWebComponent extends HTMLElement {
     for (const attr of Array.from(this.attributes)) {
       (this as any)[attr.name] = attr.value;
     }
+
+    // Trigger child tree render
     for (const node of this.layer) {
       node.render();
     }

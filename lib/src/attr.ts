@@ -14,6 +14,10 @@ export type GooAttribute =
     prop: string
     code: string
 } | {
+    type: 'with'
+    prop: string
+    code: string
+} | {
     type: 'on'
     event: string
     code: string
@@ -22,6 +26,13 @@ export type GooAttribute =
     var: string
     iterator: string
 } | {
-    type: 'this'
+    type: 'bind'
     var: string
+} | {
+    type: 'slot'
+    name: string
+} | {
+    type: 'slot-instance'
+    name: string
+    props: string[]
 }
