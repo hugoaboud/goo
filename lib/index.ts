@@ -60,6 +60,7 @@ export default class Goo {
   public make(goo_webc_name: string, options?: {
     innerHTML?: string | undefined,
     props?: Record<string, any> | undefined
+    append?: boolean
   }) {
     const webc = document.createElement(goo_webc_name);
     if (webc instanceof GooWebComponent) {
@@ -76,6 +77,9 @@ export default class Goo {
         webc.innerHTML = options.innerHTML;
         Object.assign(webc, options.props);
       }
+    }
+    if (options?.append) {
+      document.body.appendChild(webc);
     }
     return webc;
   }

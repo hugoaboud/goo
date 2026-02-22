@@ -1,0 +1,74 @@
+<template>
+    <goo-card>
+        <a class="h-at-center chip mb">${this.name}</a>
+        <div class="row ga">
+            <div class="water-tank">
+                <div
+                    class="water"
+                    id="water"
+                />
+                <div class="water-label" id="water-label">
+                    ${this.level}%
+                </div>
+            </div>
+            <div class="flex-grow-1">
+                <goo-chart set:input="this.level"/>
+            </div>
+        </div>
+    </goo-card>
+</template>
+
+<script>
+public name = 'WATERTANK';
+public level = 10;
+public step = 1;
+
+private setup() {
+    setInterval(() => {
+        this.level += this.step;
+        if (this.level >= 100 || this.level <= 0) {
+            this.step *= -1;
+        }
+        this.$water.style.top = `${100-this.level}%`;
+        this.$water.style.color = `rgb(${100-this.level},${this.level*3/4},${this.level})`
+
+        this['$water-label'].style.top = `${100-this.level}%`;
+        this['$water-label'].style.marginTop = this.level < 70
+            ? '-1rem'
+            : '';
+        this.render();
+    }, 200);
+}
+</script>
+
+<style>
+.water-tank {
+    background-color: #222;
+    width: 3rem;
+    height: 10rem;
+    border-radius: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.water {
+    content: "";
+    position: absolute;
+    background-color: #05f;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;    
+    transition: top 0.5s ease;
+}
+
+.water-label {
+    position: absolute;
+    font-weight: 100;
+    font-size: 0.8rem;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    transition: top 0.5s ease, margin-top 1s ease;
+}
+
+</style>

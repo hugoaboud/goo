@@ -1,0 +1,40 @@
+<template>
+    <div class="page">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
+                [goo-form]
+            </div>
+            <div class="h-divider mb"/>
+            <a class="mb">Simple schema-based forms</a>
+            <goo-form
+                id="form"
+                set:schema="this.form_schema"
+            />
+            <goo-btn
+                color="#5b5"
+                class="ma h-at-end"
+                on:click="this.submit_form()"
+            >Submit</goo-btn>
+            <goo-card class="line-break">
+                <a>${this.form_data}</a>
+            </goo-card>
+        </goo-card>
+    </div>
+</template>
+
+<script>
+private form_schema = {
+    items: [
+        { $item: 'field', name: 'name', alias: 'Name', type: 'string', required: true },
+        { $item: 'field', name: 'age', alias: 'Age', type: 'int', required: true },
+        { $item: 'field', name: 'height', alias: 'Height', type: 'float', required: true },
+        { $item: 'field', name: 'has_id', alias: 'Has ID', type: 'bool', required: true },
+    ]
+}
+private form_data = '';
+private submit_form() {
+    const data = this.$form.submit();
+    this.form_data = JSON.stringify(data, undefined, 2);
+    this.render();
+}
+</script>

@@ -3,7 +3,7 @@
         <div
             class="btn goo-list-item"
             for:i="in this.data"
-            on:click="this.select(item)"
+            on:click="this.select(this.data[i])"
         >
             <slot
                 name="item"

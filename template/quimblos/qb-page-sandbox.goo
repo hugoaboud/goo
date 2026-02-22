@@ -1,0 +1,12 @@
+<template>
+    <div class="col ga">
+        <qb-led-bar/>
+        <div class="row ga h-center">
+            <qb-servo/>
+            <qb-servo/>
+            <qb-servo/>
+        </div>
+        <qb-water-tank/>
+        <qb-hex/>
+    </div>
+</template>

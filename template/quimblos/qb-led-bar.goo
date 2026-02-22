@@ -1,0 +1,65 @@
+<template>
+    <goo-card>
+        <a class="h-at-center chip">${this.name}</a>
+        <div class="row h-center">
+            <div
+                class="led"
+                for:led="of this.leds"
+                set:class="led ? 'on' : ''"
+            ></div>
+        </div>
+    </goo-card>
+</template>
+
+<script>
+public name = 'LEDBAR';
+public leds = [true, false, true, false, true, false, true, false]
+public setup() {
+    setInterval(() => {
+        for (let i = 0; i < 8; i++) {
+            this.leds[i] = !this.leds[i];
+        }
+        this.render();
+    }, 1000);
+}
+</script>
+
+<style>
+.led {
+    background-color: #222;
+    width: 1.7rem;
+    height: 2rem;
+    border-radius: 1rem 1rem 0rem 0rem;
+    position: relative;
+    margin: 0.5rem 0.5rem 1.5rem 0.5rem;
+
+    &.on {
+        background-color: #f30;
+        box-shadow: inset 0 0 0.7rem #f83;
+        &::after {
+            background: #f50;
+        }
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -0.3rem;
+        left: -0.25rem;        /* extend left */
+        right: -0.25rem;       /* extend right */
+        height: 0.3rem;
+        background: #333;
+    }
+}
+
+.led::before {
+    content: "";
+    position: absolute;
+    bottom: -1rem;
+    left: 0.25rem;        /* extend left */
+    right: 0.25rem;       /* extend right */
+    height: 0.7rem;
+    border-left: solid 2px #bbb;
+    border-right: solid 2px #bbb;
+}
+</style>

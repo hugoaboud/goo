@@ -6,11 +6,11 @@
     />
     <div
         class="goo-modal col"
-        set:style="this.style"
+        set:style="this._style"
         set:class="this.is_open ? 'on' : ''"
     >
         <div class="row h-end mb">
-            <div class="icon-sm btn-d hover" on:click="this.close()">
+            <div class="icon-sm btn-d" on:click="this.close()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close</title><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" fill="currentColor"/></svg>
             </div>
         </div>
@@ -20,7 +20,7 @@
 
 <script>
 public is_open = false;
-private get style() {
+private get _style() {
     return ''
         + `width: ${this.width ?? 'fit-content'};`
         + `height: ${this.height ?? 'fit-content'};`
@@ -33,6 +33,7 @@ public open(callback?: (response?: any) => void) {
     this.render();
 }
 public close(response?: any) {
+    this.__goo_router_back?.();
     this.callback?.(response);
     this.is_open = false;
     this.render();
@@ -41,6 +42,7 @@ public close(response?: any) {
 
 <style>
 .goo-modal {
+    z-index: 5;
     background-color: #133;
     position: fixed;
     margin: auto;

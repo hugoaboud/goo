@@ -1,0 +1,20 @@
+<template>
+    <div class="goo-chart">
+        <svg id="svg"/>
+    </div>
+</template>
+
+<script>
+public x = 0;
+public setup() {
+    console.log(this.$svg);
+}
+</script>
+
+<style>
+.goo-chart {
+    height: 100%;
+    background-color: #050505;
+    border-radius: 0.2rem;
+}
+</style>

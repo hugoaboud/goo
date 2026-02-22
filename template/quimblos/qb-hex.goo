@@ -1,0 +1,86 @@
+<template>
+    <goo-card>
+        <div class="col ga">
+            <textarea class="hex-editor" rows="10"/>
+            <div class="row h-end">
+                <goo-btn
+                    if:running="false"
+                    on:click="this.run()"
+                    color="#0f5"
+                >Run</goo-btn>
+                <goo-btn
+                    if:running
+                    on:click="this.stop()"
+                    color="#f50"
+                >Stop</goo-btn>
+            </div>
+            <textarea
+                if:running
+                class="terminal"
+                rows="10"
+            >
+                ${this.output}
+            </textarea>
+        </div>
+    </goo-card>
+</template>
+
+<script>
+public name = 'LEDBAR';
+public leds = [true, false, true, false, true, false, true, false]
+
+public running = false;
+public output = '';
+
+public run() {
+    this.running = true;
+    this.output += 'Initializing...\n';
+    setTimeout(() => {
+        this.output += 'Doing something...\n';
+        this.render();
+    }, 2000);
+    setTimeout(() => {
+        this.output += 'I swear this is not fake...\n';
+        this.render();
+    }, 4000);
+    setTimeout(() => {
+        this.running = false;
+        this.output = '';
+        this.render();
+    }, 6000);
+    this.render();
+}
+
+public stop() {
+    this.running = false;
+    this.output = '';
+    this.render();
+}
+</script>
+
+<style>
+.hex-editor {
+    background-color: #030303;
+    border: 0px;
+    resize: vertical;
+    color: #fff;
+    font-family: monospace;
+}
+.terminal {
+    background-color: #052930;
+    border: 0px;
+    resize: vertical;
+    color: #fff;
+    font-family: monospace;
+    font-weight: 100;
+
+    max-height: 10rem;
+    transition: max-height 0.5s ease, display 0.5s allow-discrete;
+    &[style*="display: none"] {
+        max-height: 0px;
+    }
+    @starting-style {
+        max-height: 0px;
+    }
+}
+</style>

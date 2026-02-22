@@ -25,6 +25,7 @@ export type Route = {
         parent_slot: string
         slot: string
         component: string
+        props?: Record<string, any> | undefined
         innerHTML?: string | undefined
     }[]
 
@@ -63,7 +64,10 @@ export class RouteBuilder<
         return this;
     }
 
-    slot<Slot extends string>(slot_addr: `${ParentSlots}|${Slot}`, component: string, innerHTML?: string):
+    slot<Slot extends string>(slot_addr: `${ParentSlots}|${Slot}`, component: string, options?: {
+        props?: Record<string, any>,
+        innerHTML?: string,
+    }):
         RouteBuilder<ParentSlots, Slots | Slot>
     {
         const [parent_slot, slot] = slot_addr.split('|') as [string, string];
@@ -72,7 +76,8 @@ export class RouteBuilder<
             parent_slot,
             slot,
             component,
-            innerHTML
+            props: options?.props,
+            innerHTML: options?.innerHTML
         })
         return this
     }
@@ -290,7 +295,10 @@ export class GooRouter {
                 if (!element) {
                     return this.push_error(`Broken router state: element of slot ${child.slot} not found when popping route ${removed.route.path}`);
                 }
-                parent.removeChild(element);
+                element.style.display = 'none';
+                setTimeout(() => {
+                    element.remove();
+                }, 300);
             }
         }
         return previous
@@ -313,6 +321,10 @@ export class GooRouter {
             innerHTML: element.innerHTML
         });
         content.setAttribute('slot', element.slot);
+        if (element.props) {
+            Object.assign(content, element.props)
+        }
+        (content as any).__goo_router_back = () => window.history.back();
         parent.appendChild(content);
         (content as any).render?.();
         return content;

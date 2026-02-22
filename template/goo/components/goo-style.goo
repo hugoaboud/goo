@@ -80,6 +80,14 @@ span {
 
 /* Layout */
 
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.h-100 {
+    height: 100%;
+}
+
 a { font-size: 0.8rem; font-weight: 400;}
 label { font-size: 0.8rem; font-weight: 400;}
 .ga { gap: 0.5rem; }
@@ -111,12 +119,20 @@ label { font-size: 0.8rem; font-weight: 400;}
 .row {
     display: flex;
     flex-direction: row;
+    align-items: stretch;
 }
 .v-center {
     align-items: center;
 }
+.h-center {
+    justify-content: center;
+}
 .h-end {
     justify-content: end;
+}
+.h-at-center {
+    margin-left: auto;
+    margin-right: auto;
 }
 .h-at-end {
     margin-left: auto;
@@ -128,6 +144,7 @@ label { font-size: 0.8rem; font-weight: 400;}
 
 /* Scrim */
 .goo-scrim {
+    z-index: 1;
     background-color: #050A0A;
     position: fixed;
     top: 0px;
@@ -149,4 +166,17 @@ label { font-size: 0.8rem; font-weight: 400;}
     opacity: 0;
   }
 }
+
+/* Page */
+
+.page {
+    transition: opacity 0.3s ease, display 0.3s allow-discrete;
+    &[style*="display: none"] {
+        opacity: 0;
+    }
+    @starting-style {
+        opacity: 0;
+    }
+}
+
 </style>

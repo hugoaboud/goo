@@ -18,14 +18,17 @@
         if:menu
     >
         <slot name="menu"/>
-        <!-- <goo-list
+        <goo-list
             set:data="this.menu_data"
             on:select="this.nav"
         >
-            <div slot="item" this:as="list">
-                ${list}
-            </div>
-        </goo-list> -->
+            <a
+                slot="item"
+                bind:as="item"
+            >
+                ${item.value?.alias}
+            </a>
+        </goo-list>
     </div>
     <slot/>
 </template>
@@ -55,7 +58,9 @@ public toggle() {
 }
 
 public nav(item) {
-    console.log(item);
+    goo.router.navTo(item.path);
+    this.menu = false;
+    this.render();
 }
 </script>
 
@@ -65,6 +70,7 @@ public nav(item) {
     padding: 0.5rem;
 }
 .goo-app-navmenu {
+    z-index: 10;
     background-color: #040404;
     padding: 0.5rem;
     position: absolute;

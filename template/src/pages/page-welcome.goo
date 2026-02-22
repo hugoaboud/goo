@@ -1,25 +1,21 @@
 <template>
-    <goo-list
-        set:data="this.list_data"
-        on:select="this.select"
-    >
-        <div slot="item" bind:as="item">
-            ${this.count}${item.i}${item.value}k
-        </div>
-    </goo-list>
-    <goo-btn on:click="this.add">Add</goo-btn>
-    ${this.count}
+    <div class="page">
+        <goo-card color="#122">
+            <div class="ma">
+                Welcome to <i>Goo!</i>
+            </div>
+            <div class="h-divider mb"/>
+            <a>
+                Goo is a micro-framework for frontend development, designed as an abstraction layer on top of WebComponents.
+                <br>
+                It allows building simple browser UIs which are served on a single, very small, HTML file. No external requests by default, no dead code bundled with the app, just a minimal JS library which allows a vue-like syntax.
+            </a>
+        </goo-card>
+    </div>
 </template>
 
-<script>
-public list_data = ['A','B','C'];
-public setup() {
-    console.log(this.__goo);
+<style>
+.banana {
+    background: #FF0;
 }
-
-public count = 0;
-public add() {
-    this.count++;
-    this.render();
-}
-</script>
+</style>

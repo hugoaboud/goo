@@ -1,6 +1,5 @@
 <template>
-    <div class="col ga ma">
-        <!-- goo-btn -->
+    <div class="page">
         <goo-card>
             <div class="text-sm mb chip secondary">
                 [goo-btn]
@@ -17,7 +16,7 @@
                 </goo-btn>
             </div>
         </goo-card>
-
+    </div>
 </template>
 
 <script>

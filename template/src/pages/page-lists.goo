@@ -1,0 +1,29 @@
+<template>
+    <div class="page">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
+                [goo-list]
+            </div>
+            <div class="h-divider mb"/>
+            <a class="mb">Lists take a <span class="chip">set:data="..."</span>argument.</a>
+            <goo-list
+                set:data="this.list_data"
+                on:select="this.select"
+            >
+                <a slot="item" bind:as="item">
+                    ${item.value}
+                </a>
+            </goo-list>
+            <a class="mt">Last item clicked: ${this.list_item}</a>
+        </goo-card>
+    </div>
+</template>
+
+<script>
+private list_item = '';
+private list_data = ['Item 0','Item 1','Item 2','Item 3'];
+private select(item: string) {
+    this.list_item = item;
+    this.render();
+}
+</script>

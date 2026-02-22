@@ -1,0 +1,77 @@
+<template>
+    <goo-card>
+        <a class="h-at-center chip mb">${this.name}</a>
+        <div class="row ga h-center">
+            <div class="body">
+                <div
+                    class="arm"
+                    id="arm"
+                />
+                <div class="label" id="water-label">
+                    ${(this.angle*360/6.28).toFixed()}deg
+                </div>
+            </div>
+        </div>
+    </goo-card>
+</template>
+
+<script>
+public name = 'SERVO';
+public angle = Math.random()*2-1;
+public step = 0.05;
+
+private setup() {
+    setInterval(() => {
+        this.angle += this.step;
+        if (this.angle >= 3.14 || this.angle <= -3.14) {
+            this.step *= -1;
+        }
+        this.$arm.style.rotate = `${this.angle.toFixed(2)}rad`;
+        // this.$water.style.color = `rgb(${100-this.level},${this.level*3/4},${this.level})`
+
+        // this['$water-label'].style.top = `${100-this.level}%`;
+        // this['$water-label'].style.marginTop = this.level < 70
+        //     ? '-1rem'
+        //     : '';
+        this.render();
+    }, 200);
+}
+</script>
+
+<style>
+.body {
+    background-color: #026;
+    width: 3rem;
+    height: 6rem;
+    border-radius: 0.5rem;
+    position: relative;
+    margin: 2rem 2rem 0rem 2rem;
+}
+
+.arm {
+    position: absolute;
+    background-color: #bba;
+    width: 1.5rem;
+    height: 4rem;
+    left: 0.75rem;
+    bottom: 4rem;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+    border-radius: 1rem 1rem 1rem 1rem;
+    transform-origin: 0.75rem 3.5rem;
+    transition: rotate 0.5s ease;
+
+}
+
+.label {
+    color: #99b;
+    position: absolute;
+    font-weight: 100;
+    font-size: 0.7rem;
+    left: 0px;
+    right: 0px;
+    bottom: 0.5rem;
+    text-align: center;
+    transition: top 0.5s ease, margin-top 1s ease;
+}
+
+</style>

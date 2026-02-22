@@ -1,0 +1,86 @@
+<template>
+    <div class="page">
+        <goo-card>
+            <div class="text-sm mb chip secondary">
+                [goo-modal]
+            </div>
+            <div class="h-divider mb"/>
+            
+            <a class="mb">A modal can be statically declared with a <span class="chip">id="xyz"</span>, then open with <span class="chip">this.$xyz.open()</span>.</a>
+            <goo-btn on:click="this.$modal.open()" class="mb">
+                Open Modal
+            </goo-btn>
+            <goo-modal id="modal" width="20rem">
+                <div>Modal</div>
+                <a>This modal is declared on the template and open with a direct call to it's open() method through id.</a>
+            </goo-modal>
+            
+            <a class="mb">When opening a modal, you can specify a callback to receive a response once it's closed, with <span class="chip">this.$xyz.open(out => {...})</span>.</a>
+            <div class="row v-center ga mb">
+                <goo-btn on:click="this.open_modal">
+                    Open Modal and wait for Response
+                </goo-btn>
+                <a>Answer: ${this.modal_answer}</a>
+            </div>
+            <goo-modal
+                id="question_modal"
+                width="20rem"
+                bind:as="modal"
+            >
+                <div>Question</div>
+                <a>Please answer yes or no.</a>
+                <div class="row h-end ga">
+                    <goo-btn color="#b55" on:click="modal.close(false)">No</goo-btn>
+                    <goo-btn color="#5b5" on:click="modal.close(true)">Yes</goo-btn>
+                </div>
+            </goo-modal>
+
+            <a class="mb">You can also open a dynamic modal through Goo with <span class="chip">goo.make('goo-modal', { ... })</span>.</a>
+            <goo-btn on:click="this.make_dynamic_modal()" class="mb">
+                Open Dynamic Modal
+            </goo-btn>
+
+            <a class="mb">Goo also offers a helper method specifically for <i>goo-modal</i>, which is <span class="chip">goo.open_modal('goo-modal', '...').then(() => ...)</span>.</a>
+            <goo-btn on:click="this.open_dynamic_modal()" class="mb">
+                Open Dynamic Modal with goo.open_modal
+            </goo-btn>
+
+            <a class="mb">Finally, you can declare a modal as a sub-route (look at the router file).</a>
+            <slot name="modal"/>
+            <goo-btn on:click="this.nav_to_modal()" class="mb">
+                Navigate to Modal
+            </goo-btn>
+        </goo-card>
+    </div>
+</template>
+
+<script>
+private modal_answer = '';
+private open_modal() {
+    this.$question_modal.open(this.on_close_modal.bind(this));
+}
+private on_close_modal(response?: boolean) {
+    this.modal_answer = response?.toString();
+    this.render();
+}
+private make_dynamic_modal() {
+    const modal = goo.make('goo-modal', {
+        innerHTML: '<a>This is a purely dynamic modal!</a>',
+        append: true
+    });
+    modal.open(() => modal.destroy());
+}
+private open_dynamic_modal() {
+    const modal = goo.open_modal('goo-modal',
+        '<a>This is a purely dynamic modal, built with goo.open_modal!</a>\n'
+        + '<goo-btn color="#b55" on:click="this.close(false)">No</goo-btn>'
+        + '<goo-btn color="#5b5" on:click="this.close(true)">Yes</goo-btn>'
+    ).then(response => {
+        console.log(`Dynamic modal response: ${response}`);
+    });
+}
+
+private nav_to_modal() {
+    goo.router.navTo('/modals/modal');
+}
+</script>

@@ -4,6 +4,8 @@
         <div slot="menu">
             Menu
         </div>
-        <slot name="page"/>
+        <div class="ma">
+            <slot name="page" class="page"/>
+        </div>
     </goo-app>
 </template>
